@@ -9,7 +9,9 @@ server.use(express.json())
 //Create
 server.post('/api/users', (req, res) => {
   const userInfo = req.body;
-
+  if (!req.body.name || !req.body.bio) {
+    return res.status(400).json({ error: 'Need a user name and a bio' })
+  }
   db.insert(userInfo)
     .then(user => {
       res.status(201).json(user)
